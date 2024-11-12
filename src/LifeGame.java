@@ -1,6 +1,6 @@
 public class LifeGame {
 
-    public LifeGame (Player a, Computer b, boolean gameOver)
+    public LifeGame (Player a, boolean gameOver)
     {
 
     }

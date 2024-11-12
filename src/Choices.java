@@ -1,20 +1,43 @@
+import java.util.Scanner;
+
 public class Choices {
     int happinessChange = 0;
     int healthChange = 0;
     int intelligenceChange = 0;
+    int randomNum = 0;
+    Player test = new Player();
 
-
-    public String FirstChoice (int i)
+    public void FirstChoice (int i)
     {
+        Scanner s = new Scanner(System.in);
         String x = "";
         if (i == 1)
         {
-            happinessChange = 10;
-            healthChange = -20;
-            intelligenceChange = -20;
-            x = "You find a mystery drink. Drink it?";
-            return x;
-
+            randomNum = (int)(Math.random() * 3) + 1;
+            System.out.print("You find a random door in your house. Open it?(y/n)");
+            String input = s.nextLine();
+            if (input.equals("y"))
+            {
+            if (randomNum == 1)
+            {
+                System.out.println("You get a blessing from the gods!");
+                test.addHappiness(10);
+                test.addVitality(20);
+                test.addIntelligence(0);
+            }
+            else if (randomNum == 2){
+                System.out.println("You are cursed by the gods!");
+                test.addHappiness(-10);
+                test.addVitality(-20);
+                test.addIntelligence(20);
+            }
+            else {
+                System.out.println("You get a small blessing!");
+                test.addHappiness(5);
+                test.addVitality(5);
+                test.addIntelligence(5);
+            }
+            }
         }
         if (i == 2)
         {
