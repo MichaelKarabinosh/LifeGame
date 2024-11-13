@@ -1,12 +1,11 @@
 public class Player {
-    int age = 0;
-    int happiness = 0;
-    int vitality = 0;
-    int intelligence = 0;
-    boolean alive = false;
-    int choiceNum = 0;
-    int deathNum = 0;
-
+    int age;
+    int happiness;
+    int vitality;
+    int intelligence;
+    boolean alive;
+    int choiceNum;
+    int deathNum;
 
     public Player (int age, int happiness, int vitality, int intelligence, boolean alive, int choiceNum, int deathNum)
     {
@@ -41,59 +40,49 @@ public class Player {
     }
 
 
-    public String oneGameRound()
-    {
-       if (!deathRoll())
-       {
-           printPlayerStats();
 
-           int choiceNum = (int)(Math.random() * 21);
-           return "hello";
-       }
 
-return "fjkdflgf";
-    }
+
+
     public boolean deathRoll()
     {
         if (deathNum < 0)
         {
             return false;
         }
-        return ((Math.random() * deathNum) + 1) == ((Math.random() * deathNum + 1));
+        return ((Math.random() * deathNum) + 1) != ((Math.random() * deathNum + 1));
     }
     public int calculateDeathNum()
     {
         if (age > 100)
         {
-            deathNum = (int) (1 - 100 * Math.pow(0.96, 150 - age));
+            deathNum = (int) (1 - 30 * Math.pow(0.975, 150 - age));
         }
         else {
             deathNum = (int) (100 * Math.pow(1.08, 48 - age));
         }
         if (happiness > 50)
         {
-            deathNum += (int) (5 * Math.pow(1.11, happiness - 50));
+            deathNum += (int) (20 * Math.pow(1.09, happiness - 50));
 
         }
-        else if (happiness <= 50)
-        {
+        else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - happiness)));
         }
         if (vitality > 50)
         {
-            deathNum += (int) (5 * Math.pow(1.11, age - 50));
+            deathNum += (int) (20 * Math.pow(1.09, vitality - 50));
+            return deathNum;
 
         }
-        else if (vitality <= 50)
-        {
-            deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - age)));
+        else {
+            deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - vitality)));
         }
         if (intelligence > 50)
         {
-            deathNum += (int) (5 * Math.pow(1.1, intelligence - 50));
+            deathNum += (int) (20 * Math.pow(1.09, intelligence - 50));
         }
-        else if (intelligence <= 50)
-        {
+        else {
             deathNum += (int) (100 - 100 * (Math.pow(1.04, 50 - intelligence)));
         }
         return deathNum;

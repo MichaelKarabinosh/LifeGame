@@ -1,9 +1,11 @@
+import java.awt.*;
+
 public class LifeGameRunner {
     public static void main(String[] args) {
-Player s = new Player();
-s.setAge(300);
-s.setHappiness(100);
-s.printPlayerStats();
+        System.out.println("Welcome to Life Game®");
+
+LifeGame d = new LifeGame();
+d.oneGameRound();
 
         }
     }
