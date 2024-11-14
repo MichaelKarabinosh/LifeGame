@@ -1,17 +1,17 @@
 public class Player {
     int age;
     int happiness;
-    int vitality;
+    int health;
     int intelligence;
     boolean alive;
     int choiceNum;
     int deathNum;
 
-    public Player (int age, int happiness, int vitality, int intelligence, boolean alive, int choiceNum, int deathNum)
+    public Player (int age, int happiness, int health, int intelligence, boolean alive, int choiceNum, int deathNum)
     {
       this.age = age;
       this.happiness = happiness;
-      this.vitality = vitality;
+      this.health = health;
       this.intelligence = intelligence;
       this.alive = alive;
       this.choiceNum = choiceNum;
@@ -21,7 +21,7 @@ public class Player {
     {
         age = 0;
         happiness = 50;
-        vitality = 50;
+        health = 50;
         intelligence = 50;
         alive = true;
         choiceNum = 0;
@@ -44,13 +44,13 @@ public class Player {
 
 
 
-    public boolean deathRoll()
+    public boolean deathRoll(Choices a)
     {
         if (deathNum < 0)
         {
             return false;
         }
-        return ((Math.random() * deathNum) + 1) != ((Math.random() * deathNum + 1));
+        return (a.randomNumGen(1, deathNum) == 1);
     }
     public int calculateDeathNum()
     {
@@ -69,14 +69,14 @@ public class Player {
         else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - happiness)));
         }
-        if (vitality > 50)
+        if (health > 50)
         {
-            deathNum += (int) (20 * Math.pow(1.09, vitality - 50));
+            deathNum += (int) (20 * Math.pow(1.09, health - 50));
             return deathNum;
 
         }
         else {
-            deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - vitality)));
+            deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - health)));
         }
         if (intelligence > 50)
         {
@@ -92,9 +92,9 @@ public class Player {
     {
         happiness += i;
     }
-    public void addVitality(int i)
+    public void addHealth(int i)
     {
-        vitality += i;
+        health += i;
     }
     public void addIntelligence(int i)
     {
@@ -108,9 +108,9 @@ public class Player {
     {
         return happiness;
     }
-    public int getVitality()
+    public int getHealth()
     {
-        return vitality;
+        return health;
     }
     public int getIntelligence()
     {
@@ -134,7 +134,7 @@ public class Player {
         String a = "-----------------------\n";
         String b = "You are " + getAge() + " years old.\n";
         String c = "Happiness: " + getHappiness();
-        String d = "\nVitality: " + getVitality();
+        String d = "\nVitality: " + getHealth();
         String e = "\nIntelligence: " + getIntelligence();
         String f = "\ndeath num is: " + calculateDeathNum();
         String g = "\n-----------------------";

@@ -7,14 +7,16 @@ public class LifeGame {
 return "fjkldsfjdf";
     }
 
-    public void oneGameRound() {
-        if (!c.deathRoll()) {
+    public void oneGameRound()
+    {
+        c.calculateDeathNum();
+        if (!c.deathRoll(a))
+        {
             c.printPlayerStats();
-            int choiceNum = (int) (Math.random() * 10) + 1;
+            int choiceNum = a.randomNumGen(1,3);
             b.Birthday(c);
-            a.firstChoice(choiceNum, c);
-
-
+            a.FirstChoice(choiceNum,c);
+            c.printPlayerStats();
         }
 
     }
