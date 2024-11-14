@@ -129,7 +129,7 @@ public class Player {
 
 
 
-    public void printPlayerStats()
+    public String printPlayerStats()
     {
         String a = "-----------------------\n";
         String b = "You are " + getAge() + " years old.\n";
@@ -138,7 +138,7 @@ public class Player {
         String e = "\nIntelligence: " + getIntelligence();
         String f = "\ndeath num is: " + calculateDeathNum();
         String g = "\n-----------------------";
-        System.out.println(a + b + c + d + e + f + g);
+        return a + b + c + d + e + f + g;
     }
 
 }
