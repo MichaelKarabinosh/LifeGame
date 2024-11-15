@@ -17,7 +17,7 @@ public class Player {
         this.choiceNum = choiceNum;
         this.deathNum = deathNum;
     }
-    public Player ()
+    public Player()
     {
         age = 0;
         happiness = 50;

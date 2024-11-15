@@ -6,6 +6,7 @@ public class Choices {
     int healthChange = 0;
     int intelligenceChange = 0;
     boolean lucky;
+    boolean statChange = true;
 
 
     public void FirstChoice (int i, Player test)
@@ -34,12 +35,12 @@ public class Choices {
                 if (lucky)
                 {
                     System.out.print("You get a blessing from the gods!");
-                    changeStats(test);
+
                 }
                 else
                 {
                     System.out.print("You are cursed by the gods!");
-                    changeStats(test);
+
                 }
             }
         }
@@ -52,21 +53,21 @@ public class Choices {
                 if (lucky)
                 {
                     System.out.print("It was heads. The genie thanks you.");
-                    changeStats(test);
+
                 }
                 else
                 {
                     System.out.print("It was tails. The genie teleports away in anger.");
-                    changeStats(test);
+
                 }
             } else {
                 if (lucky) {
                     System.out.print("It was tails. The genie teleports away in anger.");
-                    changeStats(test);
+
                 } else
                 {
                     System.out.print("It was heads. The genie thanks you.");
-                    changeStats(test);
+
                 }
             }
         }
@@ -77,10 +78,10 @@ public class Choices {
             if (input.equals("k")) {
                 if (lucky) {
                     System.out.print("You hit the spider precisely and kill it.");
-                    changeStats(test);
+
                 } else {
                     System.out.print("You smash the spider really hard with your hand and get a massive bruise.");
-                    changeStats(test);
+
 
                 }
             }
@@ -108,6 +109,82 @@ public class Choices {
 
         }
     }
+    public String processChoice(int i, String input, Player p) {
+        randomNum = randomNumGen(1, 2);
+        if (randomNum == 1) {
+            happinessChange = randomStatGenerator();
+            healthChange = randomStatGenerator();
+            intelligenceChange = randomStatGenerator();
+            lucky = true;
+        } else {
+            happinessChange = -randomStatGenerator();
+            healthChange = -randomStatGenerator();
+            intelligenceChange = -randomStatGenerator();
+        }
+        if (i == 1) {
+            if (input.equals("y")) {
+                if (lucky) {
+                    addStats(p);
+                    return "You get a blessing from the gods!";
+                } else {
+                    addStats(p);
+                    return "You are cursed by the gods!";
+                }
+            }
+        }
+        if (i == 2) {
+            if (input.equals("h")) {
+                if (lucky) {
+                    addStats(p);
+                    return "It was heads. The genie thanks you.";
+                } else {
+                    addStats(p);
+                    return "It was tails. The genie teleports away in anger.";
+
+                }
+            } else {
+                if (lucky) {
+                    addStats(p);
+                    return "It was tails. The genie teleports away in anger.";
+
+                } else {
+                    addStats(p);
+                    return "It was heads. The genie thanks you.";
+
+                }
+            }
+        }
+        if (i == 3) {
+            if (input.equals("k")) {
+                if (lucky) {
+                    addStats(p);
+                    return "You hit the spider precisely and kill it.";
+
+                } else {
+                    addStats(p);
+                    return "You smash the spider really hard with your hand and get a massive bruise.";
+                }
+            }
+            else {
+                if (lucky)
+                {
+                    statChange = false;
+                    return "It runs away, leaving you unharmed...";
+                }
+                else {
+                    addStats(p);
+                    return "It pounces on you, leaving you hurt.";
+                }
+            }
+        }
+
+        return null;
+    }
+    public boolean getStatChange()
+    {
+        return statChange;
+    }
+
 
     public int randomStatGenerator()
     {
@@ -130,14 +207,14 @@ public class Choices {
     {
         return (int) (Math.random() * ((b - a) + 1)) + a;
     }
-    public void printLuck()
+    public String printLuck()
     {
         if (lucky) {
-            System.out.println(" (+" + happinessChange + " Happiness, +" + healthChange + " Health, +" + intelligenceChange + " Intelligence)");
+            return " (+" + happinessChange + " Happiness, +" + healthChange + " Health, +" + intelligenceChange + " Intelligence)";
         }
         else
         {
-            System.out.println(" (" + happinessChange + " Happiness, " + healthChange + " Health, " + intelligenceChange + " Intelligence)");
+            return " (" + happinessChange + " Happiness, " + healthChange + " Health, " + intelligenceChange + " Intelligence)";
         }
     }
 
@@ -147,11 +224,7 @@ public class Choices {
         test.addHealth(healthChange);
         test.addIntelligence(intelligenceChange);
     }
-    public void changeStats(Player test)
-    {
-        printLuck();
-        addStats(test);
-    }
+
 
 
 
