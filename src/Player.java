@@ -9,13 +9,13 @@ public class Player {
 
     public Player (int age, int happiness, int health, int intelligence, boolean alive, int choiceNum, int deathNum)
     {
-      this.age = age;
-      this.happiness = happiness;
-      this.health = health;
-      this.intelligence = intelligence;
-      this.alive = alive;
-      this.choiceNum = choiceNum;
-      this.deathNum = deathNum;
+        this.age = age;
+        this.happiness = happiness;
+        this.health = health;
+        this.intelligence = intelligence;
+        this.alive = alive;
+        this.choiceNum = choiceNum;
+        this.deathNum = deathNum;
     }
     public Player ()
     {
@@ -32,7 +32,7 @@ public class Player {
 
     public void ageUp()
     {
-    age++;
+        age++;
     }
     public void setAge(int i)
     {
