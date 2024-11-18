@@ -6,6 +6,7 @@ public class Player {
     boolean alive;
     int choiceNum;
     int deathNum;
+    Events e = new Events();
 
     public Player (int age, int happiness, int health, int intelligence, boolean alive, int choiceNum, int deathNum)
     {
@@ -20,9 +21,9 @@ public class Player {
     public Player()
     {
         age = 0;
-        happiness = 50;
-        health = 50;
-        intelligence = 50;
+        happiness = e.randomNumGen(50,100);
+        health = e.randomNumGen(50,100);
+        intelligence = e.randomNumGen(50,100);
         alive = true;
         choiceNum = 0;
         deathNum = 0;
@@ -44,7 +45,7 @@ public class Player {
 
 
 
-    public boolean deathRoll(Choices a)
+    public boolean deathRoll(Events a)
     {
         if (deathNum < 0)
         {
@@ -134,7 +135,7 @@ public class Player {
         String a = "-----------------------\n";
         String b = "You are " + getAge() + " years old.\n";
         String c = "Happiness: " + getHappiness();
-        String d = "\nVitality: " + getHealth();
+        String d = "\nHealth: " + getHealth();
         String e = "\nIntelligence: " + getIntelligence();
         String f = "\ndeath num is: " + calculateDeathNum();
         String g = "\n-----------------------";

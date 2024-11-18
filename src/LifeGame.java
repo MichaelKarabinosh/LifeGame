@@ -1,13 +1,30 @@
 import java.util.Scanner;
 
 public class LifeGame {
-    Choices c = new Choices();
-    Events e = new Events();
+    Events c = new Events();
     Player p = new Player();
-    public String beginGame()
+    Scanner scanner = new Scanner(System.in);
+    public void firstYear()
     {
-        return "fjkldsfjdf";
+        System.out.print("Enter \"+\" to start a new life. ");
+        if (scanner.nextLine().equals("+"))
+        {
+            oneGameRound();
+        }
     }
+
+    public void fullGame()
+    {
+        for (int i = p.getAge(); p.alive; i++)
+        {
+            System.out.print("Enter \"+\" to age up. ");
+            if (scanner.nextLine().equals("+")){
+                p.ageUp();
+                oneGameRound();
+            }
+        }
+    }
+
 
     public void oneGameRound()
     {
@@ -16,7 +33,9 @@ public class LifeGame {
         {
             System.out.println(p.printPlayerStats());
             int choiceNum = c.randomNumGen(1,3);
-            System.out.print(e.Birthday(p));
+            System.out.print(c.Birthday(p));
+            System.out.print(c.events(p,c));
+            System.out.println(c.printLuck());
             System.out.print(getChoiceInformation(choiceNum));
             Scanner s = new Scanner(System.in);
             String input = s.nextLine();
@@ -29,8 +48,6 @@ public class LifeGame {
                 System.out.println();
             }
             System.out.println(p.printPlayerStats());
-            System.out.println(e.events(p,c));
-            System.out.println(c.printLuck());
         }
 
     }
