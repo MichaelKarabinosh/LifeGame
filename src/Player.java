@@ -8,19 +8,9 @@ public class Player {
     int deathNum;
     Events e = new Events();
 
-    public Player (int age, int happiness, int health, int intelligence, boolean alive, int choiceNum, int deathNum)
-    {
-        this.age = age;
-        this.happiness = happiness;
-        this.health = health;
-        this.intelligence = intelligence;
-        this.alive = alive;
-        this.choiceNum = choiceNum;
-        this.deathNum = deathNum;
-    }
     public Player()
     {
-        age = 0;
+        age = 150;
         happiness = e.randomNumGen(50,100);
         health = e.randomNumGen(50,100);
         intelligence = e.randomNumGen(50,100);
@@ -35,14 +25,6 @@ public class Player {
     {
         age++;
     }
-    public void setAge(int i)
-    {
-        age =i;
-    }
-
-
-
-
 
 
     public boolean deathRoll(Events a)
@@ -57,7 +39,7 @@ public class Player {
     {
         if (age > 100)
         {
-            deathNum = (int) (1 - 30 * Math.pow(0.975, 150 - age));
+            deathNum = (int) (1 - 30 * Math.pow(0.95, 150 - age));
         }
         else {
             deathNum = (int) (100 * Math.pow(1.08, 48 - age));
@@ -117,17 +99,6 @@ public class Player {
     {
         return intelligence;
     }
-    public boolean getLifeStatus()
-    {
-        return alive;
-    }
-    public void setHappiness(int i)
-    {
-        happiness = i;
-    }
-
-
-
 
 
     public String printPlayerStats()
@@ -140,6 +111,21 @@ public class Player {
         String f = "\ndeath num is: " + calculateDeathNum();
         String g = "\n-----------------------";
         return a + b + c + d + e + f + g;
+    }
+    public void hardCap()
+    {
+        if (happiness > 100)
+        {
+            happiness = 100;
+        }
+        if (intelligence > 100)
+        {
+            intelligence = 100;
+        }
+        if (health > 100)
+        {
+            health = 100;
+        }
     }
 
 }

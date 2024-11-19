@@ -1,5 +1,4 @@
 public class Events {
-    private int randomNum = 0;
     private int happinessChange = 0;
     private int healthChange = 0;
     private int intelligenceChange = 0;
@@ -8,6 +7,7 @@ public class Events {
 
 
     public String processChoice(int i, String input, Player p) {
+        statChange = true;
         lucky = 1 == randomNumGen(1,2);
         if (lucky)
         {
@@ -24,10 +24,10 @@ public class Events {
             if (input.equals("y")) {
                 if (lucky) {
                     addStats(p);
-                    return "You get a blessing from the gods!";
+                    return "You find an old toy. It gives you nostalgia.";
                 } else {
                     addStats(p);
-                    return "You are cursed by the gods!";
+                    return "A rat jumps out and hits you in the chest!";
                 }
             }
             else {
@@ -38,20 +38,20 @@ public class Events {
             if (input.equals("h")) {
                 if (lucky) {
                     addStats(p);
-                    return "It was heads. The genie thanks you.";
+                    return "It was heads. Your mom thanks you.";
                 } else {
                     addStats(p);
-                    return "It was tails. The genie teleports away in anger.";
+                    return "It was tails. Your mom walks away in anger.";
 
                 }
             } else {
                 if (lucky) {
                     addStats(p);
-                    return "It was tails. The genie teleports away in anger.";
+                    return "It was tails. Your mom walks away in anger.";
 
                 } else {
                     addStats(p);
-                    return "It was heads. The genie thanks you.";
+                    return "It was heads. Your mom thanks you.";
 
                 }
             }
@@ -79,6 +79,48 @@ public class Events {
                 }
             }
         }
+        if (i == 4)
+        {
+            if (input.equals("i")) {
+                if (lucky) {
+                    addStats(p);
+                    return "You find a puppy. It is very happy to see you.";
+
+                } else {
+                    addStats(p);
+                    return "You find a raccoon. It runs away, leaving a mess.";
+                }
+            }
+            else {
+                    statChange = false;
+            }
+        }
+        if (i == 5)
+        {
+          if (input.equals("b"))
+          {
+              if (lucky)
+              {
+                  addStats(p);
+                  return "Your friends thank you for choosing bowling. It was a lot of fun.";
+              }
+              else {
+                  addStats(p);
+                  return "Your friends are upset. Bowling wasn't very fun.";
+              }
+          }
+          else {
+              if (lucky)
+              {
+                  addStats(p);
+                  return "Your friends thank you for choosing mini golf. They had a lot of fun.";
+              }
+              else {
+                  addStats(p);
+                  return "Your friends ditch you at mini golf. They said it was too boring.";
+              }
+          }
+        }
 
         return "";
     }
@@ -90,17 +132,23 @@ public class Events {
 
     public int randomStatGenerator()
     {
-        int i = (int) ((Math.random() * 100) + 1);
-        if (i <= 5)
+        int i = randomNumGen(1,100);
+        if (i <= 90)
         {
-            return randomNumGen(10, 12);
-        } else if (i <= 15) {
-            return randomNumGen(4, 6);
-        } else if (i <= 85) {
-            return randomNumGen(1, 3);
-        } else if (i <= 95) {
+            return randomNumGen(1,3);
+        }
+        else if (i <= 94)
+        {
+            return randomNumGen(4,6);
+        }
+         else if (i <= 97) {
             return randomNumGen(7, 9);
-        } else {
+        }
+         else if (i <= 99)
+        {
+            return  randomNumGen(10, 12);
+        }
+         else {
             return randomNumGen(13, 15);
         }
     }
@@ -130,7 +178,7 @@ public class Events {
 
     public String Birthday(Player p)
     {
-        if (randomNumGen(1,10) == 1)
+        if (randomNumGen(1,20) == 1)
         {
             p.addIntelligence(-5);
             p.addHappiness(20);
@@ -139,7 +187,7 @@ public class Events {
         return "";
     }
 
-    public String events (Player p, Events c)
+    public String ageBasedEvents (Player p, Events c)
     {
         int rand = randomNumGen(1,5);
         lucky = 1 == randomNumGen(1,2);
@@ -197,7 +245,7 @@ public class Events {
             {
                 if (lucky) {
                     addStats(p);
-                    return "You eat the suspicious looking school lunch. It makes you feel good";
+                    return "You eat the suspicious looking school lunch. It makes you feel energized.";
                 }
                 else {
                     addStats(p);
@@ -218,6 +266,13 @@ public class Events {
         }
         if (p.getAge() <= 21)
         {
+            if (rand == 1)
+            {
+                if (lucky)
+                {
+                    return "";
+                }
+            }
 
         }
         return "";
