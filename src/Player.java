@@ -10,10 +10,10 @@ public class Player {
 
     public Player()
     {
-        age = 150;
-        happiness = e.randomNumGen(50,100);
-        health = e.randomNumGen(50,100);
-        intelligence = e.randomNumGen(50,100);
+        age = 60;
+        happiness = e.randomNumGen(60,100);
+        health = e.randomNumGen(60,100);
+        intelligence = e.randomNumGen(60,100);
         alive = true;
         choiceNum = 0;
         deathNum = 0;
@@ -31,42 +31,40 @@ public class Player {
     {
         if (deathNum < 0)
         {
-            return false;
+            return true;
         }
         return (a.randomNumGen(1, deathNum) == 1);
     }
     public int calculateDeathNum()
     {
-        if (age > 100)
+        if (age > 40)
         {
-            deathNum = (int) (1 - 30 * Math.pow(0.95, 150 - age));
+            deathNum = (int) (1 - 30 * Math.pow(0.925, 40 - age));
         }
         else {
-            deathNum = (int) (100 * Math.pow(1.08, 48 - age));
+            deathNum = (int) (100 * Math.pow(1.08, 30 - age));
         }
         if (happiness > 50)
         {
-            deathNum += (int) (20 * Math.pow(1.09, happiness - 50));
-
+            deathNum += (int) (20 * Math.pow(1.05, happiness - 50));
         }
         else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - happiness)));
         }
         if (health > 50)
         {
-            deathNum += (int) (20 * Math.pow(1.09, health - 50));
-            return deathNum;
-
+            deathNum += (int) (20 * (Math.pow(1.05, health - 50)));
         }
         else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - health)));
         }
         if (intelligence > 50)
         {
-            deathNum += (int) (20 * Math.pow(1.09, intelligence - 50));
+            deathNum += (int) (20 * Math.pow(1.05, intelligence - 50));
+
         }
         else {
-            deathNum += (int) (100 - 100 * (Math.pow(1.04, 50 - intelligence)));
+            deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - intelligence)));
         }
         return deathNum;
     }
