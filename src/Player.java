@@ -11,7 +11,7 @@ public class Player {
 
     public Player()
     {
-        age = 0;
+        age = 40;
         happiness = e.randomNumGen(60,100);
         health = e.randomNumGen(60,100);
         intelligence = e.randomNumGen(60,100);

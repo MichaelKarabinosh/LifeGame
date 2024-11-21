@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class LifeGame {
@@ -193,20 +194,52 @@ public class LifeGame {
 
 
 
+    public static String getRoundString(int r) {
+        String f = "#.";
+        for (int i = 0; i < r; i++) {
+            f += "#";
+        }
+        return f;
+
+    }
+    public int numDecimalPlaces(int age)
+    {
+        if (age <= 11)
+        {
+            return 1;
+        }
+        if (age <= 21)
+        {
+            return 2;
+        }
+        if (age <= 41)
+        {
+            return 3;
+        }
+        else {
+            return 4;
+        }
+    }
 
 
     public String getMathBasedChoiceInfo(Player p, Events c)
     {
+        double x = (Math.random() * 20) + 1;
+        double y = (Math.random() * 20) + 1;
+        int decPlaces = numDecimalPlaces(p.getAge());
+        DecimalFormat df = new DecimalFormat(getRoundString(decPlaces));
         int randInt = c.randomNumGen(1,2);
-        int x = c.randomNumGen(1,10);
-        int y = c.randomNumGen(1,9);
         if (p.getAge() <= 10)
         {
             if (randInt == 1){
+                x = Double.parseDouble(df.format(x));
+                y = Double.parseDouble(df.format(y));
                 c.setActMathAns(x + y);
                 return "Your teacher asks you a math question: What is " + x + " + " + y + "? ";
             }
             if (randInt == 2) {
+                x = Double.parseDouble(df.format(x));
+                y = Double.parseDouble(df.format(y));
                 c.setActMathAns(x -y);
                 return "Your teacher asks you a math question: What is " + x + " - " + y + "? ";
             }
@@ -214,22 +247,30 @@ public class LifeGame {
         if (p.getAge() <= 21)
         {
             if (randInt == 1){
+                x = Double.parseDouble(df.format(x));
+                y = Double.parseDouble(df.format(y));
                 c.setActMathAns(x * y);
                 return "Your teacher asks you a math question: What is " + x + " * " + y + "? ";
             }
             if (randInt == 2) {
+                x = Double.parseDouble(df.format(x));
+                y = Double.parseDouble(df.format(y));
                 c.setActMathAns(x / y);
                 return "Your teacher asks you a math question: What is " + x + " / " + y + "? (Rounded down)";
             }
         }
         if (p.getAge() <= 40)
         {
-            c.setActMathAns((int) Math.pow(x,y));
+            x = Double.parseDouble(df.format(x));
+            y = Double.parseDouble(df.format(y));
+            c.setActMathAns(Math.pow(x,y));
             return "Your boss asks you a math question: What is " + x + " ^ " + y + "? ";
         }
         else if (p.getAge() >= 41)
         {
-            c.setActMathAns((int)Math.sqrt(x) + (int)Math.sqrt(y));
+            x = Double.parseDouble(df.format(x));
+            y = Double.parseDouble(df.format(y));
+            c.setActMathAns(Math.sqrt(x) + Math.sqrt(y));
             return "Your child asks you a math question: What is the sum of the square root of " + x + " and the square root of " + y + " rounded to the nearest integer? ";
         }
         return "";

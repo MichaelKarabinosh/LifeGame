@@ -5,11 +5,11 @@ public class Events {
     private boolean lucky;
     private boolean statChange = true;
     public int yearsLeftSick;
-    int userMathAns = 0;
-    int actMathAns = 0;
-    public void setUserMathAns(int i)
+    double userMathAns = 0;
+    double actMathAns = 0;
+    public void setUserMathAns(double d)
     {
-        userMathAns = i;
+        userMathAns = d;
     }
 
 
@@ -728,9 +728,9 @@ return "";
         statChange = f;
     }
 
-    public void setActMathAns(int i)
+    public void setActMathAns(double d)
     {
-        actMathAns = i;
+        actMathAns = d;
     }
 
     public String processMathBasedChoice(Player p)

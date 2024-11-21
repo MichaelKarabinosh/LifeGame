@@ -1,3 +1,4 @@
+
 public class LifeGameRunner {
     public static void main(String[] args) {
         System.out.println("Welcome to Life Game®");
