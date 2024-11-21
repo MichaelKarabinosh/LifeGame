@@ -5,6 +5,7 @@ public class LifeGame {
     Player p = new Player();
     Scanner scanner = new Scanner(System.in);
     int choicesMade = 0;
+
     public void firstYear()
     {
         System.out.print("Press enter to start a new life.");
@@ -13,7 +14,6 @@ public class LifeGame {
             oneGameRound();
         }
     }
-
     public void fullGame()
     {
         while (p.alive) {
@@ -39,9 +39,20 @@ public class LifeGame {
             p.hardCap();
             System.out.println(p.printPlayerStats());
             int choiceNum = c.randomNumGen(1,5);
-            System.out.print(c.Birthday(p));
-            System.out.print(c.ageBasedEvents(p,c));
-            System.out.println(c.printLuck());
+            System.out.print(c.seasonalEvents(p));
+            c.setStatChange(false);
+            if (c.getYearsLeftSick() > 0)
+            {
+                c.Sickness(p);
+                System.out.println("You are still sick... (-2 Health)");
+                p.addHealth(-2);
+            }
+            if (c.randomNumGen(1,3) == 1){
+            System.out.print(c.regularEvents(p, c));
+        }
+            if (c.getStatChange()){
+                System.out.println(c.printLuck());
+            }
             if (c.randomNumGen(1,5) == 1) {
                 System.out.print(getBasicChoiceInformation(choiceNum));
                 input = s.nextLine();
@@ -54,11 +65,21 @@ public class LifeGame {
                 choicesMade++;
             }
             choiceNum = c.randomNumGen(1,5);
-            System.out.print(getAgeBasedChoiceInformation(choiceNum));
-            input = s.nextLine();
-            System.out.print(c.processAgeBasedChoice(choiceNum, input, p));
-            System.out.println(c.printLuck());
-            choicesMade++;
+            if (c.randomNumGen(1,3) == 1) {
+                System.out.print(getAgeBasedChoiceInformation(choiceNum));
+                input = s.nextLine();
+                System.out.print(c.processAgeBasedChoice(choiceNum, input, p));
+                choicesMade++;
+                System.out.println(c.printLuck());
+            }
+            if (c.randomNumGen(1, 3) == 1)
+            {
+                System.out.print(getMathBasedChoiceInfo(p,c));
+                c.setUserMathAns(Integer.parseInt(s.nextLine()));
+                System.out.print(c.processMathBasedChoice(p));
+                System.out.println(c.printLuck());
+                choicesMade++;
+            }
         }
         else {
             p.alive = false;
@@ -159,6 +180,50 @@ public class LifeGame {
             if (i == 5) {
                 return "You have an opportunity to retire early. Do you retire (r) or keep working (w)? ";
             }
+        }
+        return "";
+    }
+
+
+
+
+
+    public String getMathBasedChoiceInfo(Player p, Events c)
+    {
+        int randInt = c.randomNumGen(1,2);
+        int x = c.randomNumGen(1,10);
+        int y = c.randomNumGen(1,9);
+        if (p.getAge() <= 10)
+        {
+            if (randInt == 1){
+                c.setActMathAns(x + y);
+                return "Your teacher asks you a math question: What is " + x + " + " + y + "? ";
+            }
+            if (randInt == 2) {
+                c.setActMathAns(x -y);
+                return "Your teacher asks you a math question: What is " + x + " - " + y + "? ";
+            }
+        }
+        if (p.getAge() <= 21)
+        {
+            if (randInt == 1){
+                c.setActMathAns(x * y);
+                return "Your teacher asks you a math question: What is " + x + " * " + y + "? ";
+            }
+            if (randInt == 2) {
+                c.setActMathAns(x / y);
+                return "Your teacher asks you a math question: What is " + x + " / " + y + "? (Rounded down)";
+            }
+        }
+        if (p.getAge() <= 40)
+        {
+            c.setActMathAns((int) Math.pow(x,y));
+            return "Your boss asks you a math question: What is " + x + " ^ " + y + "? ";
+        }
+        else if (p.getAge() >= 41)
+        {
+            c.setActMathAns((int)Math.sqrt(x) + (int)Math.sqrt(y));
+            return "Your child asks you a math question: What is the sum of the square root of " + x + " and the square root of " + y + " rounded to the nearest integer? ";
         }
         return "";
     }

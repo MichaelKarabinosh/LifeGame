@@ -7,16 +7,18 @@ public class Player {
     int choiceNum;
     int deathNum;
     Events e = new Events();
+    boolean sick;
 
     public Player()
     {
-        age = 60;
+        age = 0;
         happiness = e.randomNumGen(60,100);
         health = e.randomNumGen(60,100);
         intelligence = e.randomNumGen(60,100);
         alive = true;
         choiceNum = 0;
         deathNum = 0;
+        sick = false;
     }
 
 
@@ -25,6 +27,15 @@ public class Player {
     {
         age++;
     }
+    public void setSick(boolean a)
+    {
+        sick = a;
+    }
+    public boolean getSick()
+    {
+        return sick;
+    }
+
 
 
     public boolean deathRoll(Events a)
@@ -37,34 +48,41 @@ public class Player {
     }
     public int calculateDeathNum()
     {
-        if (age > 40)
+        if (age > 30)
         {
-            deathNum = (int) (1 - 30 * Math.pow(0.925, 40 - age));
+            deathNum = (int) (1 - 10 * Math.pow(0.88, 30 - age));
+
         }
         else {
             deathNum = (int) (100 * Math.pow(1.08, 30 - age));
         }
         if (happiness > 50)
         {
-            deathNum += (int) (20 * Math.pow(1.05, happiness - 50));
+            deathNum += (int) (100 * Math.pow(1.05, happiness - 50));
+
         }
         else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - happiness)));
+
         }
         if (health > 50)
         {
-            deathNum += (int) (20 * (Math.pow(1.05, health - 50)));
+            deathNum += (int) (100 * (Math.pow(1.05, health - 50)));
+
         }
         else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - health)));
+
         }
         if (intelligence > 50)
         {
-            deathNum += (int) (20 * Math.pow(1.05, intelligence - 50));
+            deathNum += (int) (100 * Math.pow(1.05, intelligence - 50));
+
 
         }
         else {
             deathNum += (int) (100 - 100 * (Math.pow(1.05, 50 - intelligence)));
+
         }
         return deathNum;
     }
@@ -106,7 +124,7 @@ public class Player {
         String c = "Happiness: " + getHappiness();
         String d = "\nHealth: " + getHealth();
         String e = "\nIntelligence: " + getIntelligence();
-        String f = "\ndeath num is: " + calculateDeathNum();
+        String f = "\nChance of death is: " +  String.format("%.3f", 100 * (1 / ((double)calculateDeathNum() / 20))) + "%";
         String g = "\n-----------------------";
         return a + b + c + d + e + f + g;
     }
@@ -125,5 +143,6 @@ public class Player {
             health = 100;
         }
     }
+
 
 }

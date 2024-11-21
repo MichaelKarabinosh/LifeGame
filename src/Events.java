@@ -4,6 +4,14 @@ public class Events {
     private int intelligenceChange = 0;
     private boolean lucky;
     private boolean statChange = true;
+    public int yearsLeftSick;
+    int userMathAns = 0;
+    int actMathAns = 0;
+    public void setUserMathAns(int i)
+    {
+        userMathAns = i;
+    }
+
 
 
     public String processChoice(int i, String input, Player p) {
@@ -125,6 +133,18 @@ public class Events {
     }
     public String processAgeBasedChoice(int i, String input, Player p)
     {
+        lucky = randomNumGen(1,10) <= 4;
+        if (lucky)
+        {
+            happinessChange = randomStatGenerator();
+            healthChange = randomStatGenerator();
+            intelligenceChange = randomStatGenerator();
+        }
+        else {
+            happinessChange = -randomStatGenerator();
+            healthChange = -randomStatGenerator();
+            intelligenceChange = -randomStatGenerator();
+        }
         if (p.getAge() <= 10)
         {
             if (i == 1) {
@@ -529,26 +549,25 @@ return "";
     }
 
 
+
+
+
+
+
+
     public int randomStatGenerator()
     {
-        int i = randomNumGen(1,100);
-        if (i <= 90)
+        int i = randomNumGen(1,500);
+        if (i <= 450)
         {
             return randomNumGen(1,3);
         }
-        else if (i <= 94)
+        else if (i <= 496)
         {
             return randomNumGen(4,6);
         }
-         else if (i <= 97) {
+         else   {
             return randomNumGen(7, 9);
-        }
-         else if (i <= 99)
-        {
-            return  randomNumGen(10, 12);
-        }
-         else {
-            return randomNumGen(13, 15);
         }
     }
 
@@ -575,20 +594,47 @@ return "";
     }
 
 
-    public String Birthday(Player p)
+    public String seasonalEvents(Player p)
     {
         if (randomNumGen(1,20) == 1)
         {
             p.addIntelligence(-5);
-            p.addHappiness(20);
-            return "Your friends surprise you with a birthday party! (+20 Happiness, -5 Intelligence)\n";
+            p.addHappiness(10);
+            return "Your friends surprise you with a birthday party! (+10 Happiness, -5 Intelligence)\n";
+        }
+        else if(randomNumGen(1,20) == 1)
+        {
+            p.addHappiness(5);
+            return "You celebrate New Year’s with your family! (+5 Happiness)\n";
+        }
+        else if (randomNumGen(1,20) == 1)
+        {
+            p.addHappiness(10);
+            p.addHealth(5);
+            return "You celebrate Christmas with your family! (+10 Happiness, +5 Health)\n";
+        }
+        else if (randomNumGen(1,20) == 1)
+        {
+            p.addHappiness(5);
+            p.addHealth(-5);
+            return "Halloween spooks you into fun! (+5 Happiness, -5 Health)\n";
+        }
+        else if (randomNumGen(1,20) == 1)
+        {
+            p.addHealth(-5);
+            p.addHappiness(5);
+            return "Thanksgiving helps you connect with family (+5 Happiness, -5 Health)\n ";
+        }
+        else {
+            statChange = false;
         }
         return "";
     }
 
-    public String ageBasedEvents (Player p, Events c)
+    public String regularEvents (Player p, Events c)
     {
-        int rand = randomNumGen(1,5);
+        statChange = true;
+        int rand = randomNumGen(1,100);
         lucky = randomNumGen(1,10) <= 4;
         if (lucky)
         {
@@ -601,80 +647,114 @@ return "";
             healthChange = -randomStatGenerator();
             intelligenceChange = -randomStatGenerator();
         }
-        if (p.getAge() <= 1000)
-        {
-            if (rand == 1)
-            {
-                if (lucky)
-                {
-                    addStats(p);
-                    return "Your mom forces you to go on a playdate. You enjoy it. ";
-                }
-                else
-                {
-                    addStats(p);
-                    return "Your mom forces you to go on a playdate. You hate it.";
-                }
-            }
-            if (rand == 2)
-            {
-                if (lucky)
-                {
-                    addStats(p);
-                    return "At daycare, your friend tells you he likes your shoes.";
-                }
-                else {
-                    addStats(p);
-                    return "At daycare, your friend tells you he hates your outfit.";
-                }
-            }
-            if (rand == 3)
-            {
-                if (lucky)
-                {
-                    addStats(p);
-                    return "You get a A+ on your math test. Your mom is very proud.";
-                }
-                else {
-                    addStats(p);
-                    return "You get a C on your math test. Your mom is very upset.";
-                }
-            }
-            if (rand == 4)
-            {
-                if (lucky) {
-                    addStats(p);
-                    return "You eat the suspicious looking school lunch. It makes you feel energized.";
-                }
-                else {
-                    addStats(p);
-                    return "You eat the suspicious looking school lunch. It makes your tummy rumble.";
-                }
-            }
-            else {
-                if (lucky)
-                {
-                    addStats(p);
-                    return "While playing catch, your dad throws the ball a little too hard. You catch it regardless. He is very proud.";
-                }
-                else {
-                    addStats(p);
-                    return "While playing catch, your dad throws the ball a little too hard. It hits you square in the face.";
-                }
+        if (rand <= 10) {
+            if (!p.getSick()) {
+                Sickness(p);
+                p.addHealth(-2);
+                yearsLeftSick = randomNumGen(1,3);
+                return "You wake up feeling unwell. You may be sick for a while... (-2 Health)\n";
             }
         }
-        if (p.getAge() <= 21)
+        else if (rand >= 90)
         {
-            if (rand == 1)
-            {
-
-                if (lucky)
-                {
-                    return "";
-                }
+            if (lucky) {
+                c.addStats(p);
+                return "Your friend surprises you with a gift. It's a nice necklace.";
             }
-
+            else {
+                c.addStats(p);
+                return "Your friend surprises you with a gift. It's coal.";
+            }
+        }
+        else if (rand >= 80)
+        {
+            if (lucky)
+            {
+                c.addStats(p);
+                return "You find a lottery ticket on the ground. You win " + randomNumGen(10,20) + " dollars.";
+            }
+            else
+            {
+                c.addStats(p);
+                return "You find a lottery ticket on the ground. Its a loser.";
+            }
+        }
+        else if (rand >= 70)
+        {
+            if (lucky)
+            {
+                c.addStats(p);
+                return "Your dog performs a nice trick you've been teaching them.";
+            }
+            else
+            {
+                c.addStats(p);
+                return "While playing with your dog, it bites your finger pretty hard";
+            }
+        }
+        else if (rand >= 60)
+        {
+            if (lucky)
+            {
+                c.addStats(p);
+                return "You find an old plushie at the back of your bed. It brings back memories.";
+            }
+            else {
+                addStats(p);
+                return "While making your bed, it breaks unexpectedly.";
+            }
+        }
+        else{
+            statChange = false;
         }
         return "";
     }
+
+    public void Sickness(Player p)
+    {
+        p.setSick(true);
+        yearsLeftSick--;
+        if (yearsLeftSick == 0)
+        {
+            p.setSick(false);
+        }
+    }
+    public int getYearsLeftSick()
+    {
+        return yearsLeftSick;
+    }
+    public void setStatChange(boolean f)
+    {
+        statChange = f;
+    }
+
+    public void setActMathAns(int i)
+    {
+        actMathAns = i;
+    }
+
+    public String processMathBasedChoice(Player p)
+    {
+        if (userMathAns == actMathAns)
+        {
+            happinessChange = randomStatGenerator();
+            healthChange = randomStatGenerator();
+            intelligenceChange = randomStatGenerator();
+            lucky = true;
+            addStats(p);
+            return "Correct. You feel good for answering correctly.";
+        }
+        else
+        {
+            happinessChange = -randomStatGenerator();
+            healthChange = -randomStatGenerator();
+            intelligenceChange = -randomStatGenerator();
+            lucky = false;
+            addStats(p);
+            return "Incorrect. The correct answer was " + actMathAns + ".";
+        }
+    }
+
+
+
 }
