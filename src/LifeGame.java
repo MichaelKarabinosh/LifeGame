@@ -75,7 +75,14 @@ public class LifeGame {
             if (c.randomNumGen(1, 3) == 1)
             {
                 System.out.print(getMathBasedChoiceInfo(p,c));
-                c.setUserMathAns(Integer.parseInt(s.nextLine()));
+                try
+                {
+                    c.setUserMathAns(Integer.parseInt(s.nextLine()));
+                }
+                catch (NumberFormatException e)
+                {
+                    c.setUserMathAns(0);
+                }
                 System.out.print(c.processMathBasedChoice(p));
                 System.out.println(c.printLuck());
                 choicesMade++;
