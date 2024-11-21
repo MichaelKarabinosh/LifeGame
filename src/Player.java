@@ -11,10 +11,10 @@ public class Player {
 
     public Player()
     {
-        age = 40;
-        happiness = e.randomNumGen(60,100);
-        health = e.randomNumGen(60,100);
-        intelligence = e.randomNumGen(60,100);
+        age = 0;
+        happiness = e.randomNumGen(70,100);
+        health = e.randomNumGen(70,100);
+        intelligence = e.randomNumGen(70,100);
         alive = true;
         choiceNum = 0;
         deathNum = 0;

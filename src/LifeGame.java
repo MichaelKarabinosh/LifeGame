@@ -2,7 +2,7 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class LifeGame {
-    Events c = new Events();
+    Events e = new Events();
     Player p = new Player();
     Scanner scanner = new Scanner(System.in);
     int choicesMade = 0;
@@ -33,59 +33,59 @@ public class LifeGame {
     public void oneGameRound()
     {
         p.calculateDeathNum();
-        if (!p.deathRoll(c))
+        if (!p.deathRoll(e))
         {
             Scanner s = new Scanner(System.in);
             String input;
             p.hardCap();
             System.out.println(p.printPlayerStats());
-            int choiceNum = c.randomNumGen(1,5);
-            System.out.print(c.seasonalEvents(p));
-            c.setStatChange(false);
-            if (c.getYearsLeftSick() > 0)
+            int choiceNum = e.randomNumGen(1,5);
+            System.out.print(e.seasonalEvents(p));
+            e.setStatChange(false);
+            if (e.getYearsLeftSick() > 0)
             {
-                c.Sickness(p);
+                e.Sickness(p);
                 System.out.println("You are still sick... (-2 Health)");
                 p.addHealth(-2);
             }
-            if (c.randomNumGen(1,3) == 1){
-            System.out.print(c.regularEvents(p, c));
+            if (e.randomNumGen(1,3) == 1){
+            System.out.print(e.regularEvents(p, e));
         }
-            if (c.getStatChange()){
-                System.out.println(c.printLuck());
+            if (e.getStatChange()){
+                System.out.println(e.printLuck());
             }
-            if (c.randomNumGen(1,5) == 1) {
+            if (e.randomNumGen(1,5) == 1) {
                 System.out.print(getBasicChoiceInformation(choiceNum));
                 input = s.nextLine();
-                System.out.print(c.processChoice(choiceNum, input, p));
-                if (c.getStatChange()) {
-                    System.out.println(c.printLuck());
+                System.out.print(e.processChoice(choiceNum, input, p));
+                if (e.getStatChange()) {
+                    System.out.println(e.printLuck());
                 } else {
                     System.out.println();
                 }
                 choicesMade++;
             }
-            choiceNum = c.randomNumGen(1,5);
-            if (c.randomNumGen(1,3) == 1) {
+            choiceNum = e.randomNumGen(1,5);
+            if (e.randomNumGen(1,3) == 1) {
                 System.out.print(getAgeBasedChoiceInformation(choiceNum));
                 input = s.nextLine();
-                System.out.print(c.processAgeBasedChoice(choiceNum, input, p));
+                System.out.print(e.processAgeBasedChoice(choiceNum, input, p));
                 choicesMade++;
-                System.out.println(c.printLuck());
+                System.out.println(e.printLuck());
             }
-            if (c.randomNumGen(1, 3) == 1)
+            if (e.randomNumGen(1, 3) == 1)
             {
-                System.out.print(getMathBasedChoiceInfo(p,c));
+                System.out.print(getMathBasedChoiceInfo(p,e));
                 try
                 {
-                    c.setUserMathAns(Integer.parseInt(s.nextLine()));
+                    e.setUserMathAns(Double.parseDouble(s.nextLine()));
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException p)
                 {
-                    c.setUserMathAns(0);
+                    e.setUserMathAns(0);
                 }
-                System.out.print(c.processMathBasedChoice(p));
-                System.out.println(c.printLuck());
+                System.out.print(e.processMathBasedChoice(p));
+                System.out.println(e.printLuck());
                 choicesMade++;
             }
         }
@@ -98,7 +98,7 @@ public class LifeGame {
     {
         if (i == 1)
         {
-            return "You find a mystery box in the attic. Open it? (y/n) ";
+            return "You find a mystery box in the attie. Open it? (y/n) ";
         }
         if (i == 2)
         {
@@ -159,10 +159,10 @@ public class LifeGame {
                 return "You’re offered a new job. Do you accept (a) or stay at your current job (s)? ";
             }
             if (i == 2) {
-                return "You see an old friend at the grocery store. Do you chat (c) or walk by (w)? ";
+                return "You see an old friend at the grocery store. Do you chat (e) or walk by (w)? ";
             }
             if (i == 3) {
-                return "You’re deciding between two apartments. Do you choose the cheaper one (c) or the more expensive one (e)? ";
+                return "You’re deciding between two apartments. Do you choose the cheaper one (e) or the more expensive one (e)? ";
             }
             if (i == 4) {
                 return "You’re invited to a weekend getaway. Do you go (g) or stay home (h)? ";
@@ -212,66 +212,70 @@ public class LifeGame {
         {
             return 2;
         }
-        if (age <= 41)
-        {
-            return 3;
-        }
         else {
-            return 4;
+            return 3;
         }
     }
 
 
-    public String getMathBasedChoiceInfo(Player p, Events c)
+    public String getMathBasedChoiceInfo(Player p, Events e)
     {
         double x = (Math.random() * 20) + 1;
         double y = (Math.random() * 20) + 1;
         int decPlaces = numDecimalPlaces(p.getAge());
         DecimalFormat df = new DecimalFormat(getRoundString(decPlaces));
-        int randInt = c.randomNumGen(1,2);
+        int randInt = e.randomNumGen(1,2);
         if (p.getAge() <= 10)
         {
             if (randInt == 1){
                 x = Double.parseDouble(df.format(x));
                 y = Double.parseDouble(df.format(y));
-                c.setActMathAns(x + y);
+                e.setActMathAns(Double.parseDouble(df.format(x +y)));
                 return "Your teacher asks you a math question: What is " + x + " + " + y + "? ";
             }
             if (randInt == 2) {
                 x = Double.parseDouble(df.format(x));
                 y = Double.parseDouble(df.format(y));
-                c.setActMathAns(x -y);
+                e.setActMathAns(Double.parseDouble(df.format(x -y)));
                 return "Your teacher asks you a math question: What is " + x + " - " + y + "? ";
             }
         }
         if (p.getAge() <= 21)
         {
             if (randInt == 1){
-                x = Double.parseDouble(df.format(x));
-                y = Double.parseDouble(df.format(y));
-                c.setActMathAns(x * y);
+                x = Double.parseDouble(df.format((Math.random() * 500) + 100));
+                y = Double.parseDouble(df.format((Math.random() * 500) + 100));
+                e.setActMathAns(Double.parseDouble(df.format(x * y)));
                 return "Your teacher asks you a math question: What is " + x + " * " + y + "? ";
             }
             if (randInt == 2) {
-                x = Double.parseDouble(df.format(x));
-                y = Double.parseDouble(df.format(y));
-                c.setActMathAns(x / y);
-                return "Your teacher asks you a math question: What is " + x + " / " + y + "? (Rounded down)";
+                x = Double.parseDouble(df.format((Math.random() * 500) + 100));
+                y = Double.parseDouble(df.format((Math.random() * 20) + 10));
+                e.setActMathAns(Double.parseDouble(df.format(x / y)));
+                return "Your teacher asks you a math question: What is " + x + " / " + y + "? ";
             }
         }
         if (p.getAge() <= 40)
         {
-            x = Double.parseDouble(df.format(x));
-            y = Double.parseDouble(df.format(y));
-            c.setActMathAns(Math.pow(x,y));
-            return "Your boss asks you a math question: What is " + x + " ^ " + y + "? ";
+            x = Double.parseDouble(df.format((Math.random() * 200000) + 5000));
+            y = Double.parseDouble(df.format((Math.random() * 200000) + 5000));
+            e.setActMathAns(Double.parseDouble(df.format(Math.sqrt(x) + Math.sqrt(y))));
+            return "Your boss asks you a math question: What is the sum of the square root of " + x + " and the square root of " + y + "? ";
         }
         else if (p.getAge() >= 41)
         {
-            x = Double.parseDouble(df.format(x));
-            y = Double.parseDouble(df.format(y));
-            c.setActMathAns(Math.sqrt(x) + Math.sqrt(y));
-            return "Your child asks you a math question: What is the sum of the square root of " + x + " and the square root of " + y + " rounded to the nearest integer? ";
+            double a = (Math.random() * 40) + 1;
+            double b = (Math.random() * 500) + 100;
+            double c = (Math.random() * 15) + 1;
+            a = Double.parseDouble(df.format(a));
+            b = Double.parseDouble(df.format(b));
+            c = Double.parseDouble(df.format(c));
+
+            double sqrt = Math.sqrt(Math.pow(b, 2) - (4 * a * c));
+            e.setActMathAns(Double.parseDouble(df.format((-b + sqrt) / (2 * a))));
+            e.setActMathAnsQuadratic(Double.parseDouble(df.format((-b - sqrt) / (2 * a))));
+            return "Your child asks you a math question: What is one possible root of " + a + "x^2 + " + b + "x + " + c + "?";
+
         }
         return "";
     }

@@ -7,6 +7,7 @@ public class Events {
     public int yearsLeftSick;
     double userMathAns = 0;
     double actMathAns = 0;
+    double actMathAnsQuadratic = 0;
     public void setUserMathAns(double d)
     {
         userMathAns = d;
@@ -16,7 +17,7 @@ public class Events {
 
     public String processChoice(int i, String input, Player p) {
         statChange = true;
-        lucky = randomNumGen(1,10) <= 4;
+        lucky = randomNumGen(1,10) <= 6;
         if (lucky)
         {
             happinessChange = randomStatGenerator();
@@ -596,34 +597,48 @@ return "";
 
     public String seasonalEvents(Player p)
     {
-        if (randomNumGen(1,20) == 1)
+        if (randomNumGen(1,40) == 1)
         {
-            p.addIntelligence(-5);
-            p.addHappiness(10);
-            return "Your friends surprise you with a birthday party! (+10 Happiness, -5 Intelligence)\n";
+            p.addIntelligence(5);
+            p.addHappiness(5);
+            return "Your friends surprise you with a birthday party! (+5 Happiness, +5 Intelligence)\n";
         }
-        else if(randomNumGen(1,20) == 1)
+        else if(randomNumGen(1,40) == 1)
         {
             p.addHappiness(5);
-            return "You celebrate New Year’s with your family! (+5 Happiness)\n";
-        }
-        else if (randomNumGen(1,20) == 1)
-        {
-            p.addHappiness(10);
             p.addHealth(5);
-            return "You celebrate Christmas with your family! (+10 Happiness, +5 Health)\n";
+            return "You celebrate New Year’s with your family! (+5 Happiness, +5 Health)\n";
         }
-        else if (randomNumGen(1,20) == 1)
+        else if (randomNumGen(1,40) == 1)
+        {
+            p.addHappiness(5);
+            p.addHealth(5);
+            return "You celebrate Christmas with your family! (+5 Happiness, +5 Health)\n";
+        }
+        else if (randomNumGen(1,40) == 1)
         {
             p.addHappiness(5);
             p.addHealth(-5);
             return "Halloween spooks you into fun! (+5 Happiness, -5 Health)\n";
         }
-        else if (randomNumGen(1,20) == 1)
+        else if (randomNumGen(1,40) == 1)
         {
             p.addHealth(-5);
             p.addHappiness(5);
-            return "Thanksgiving helps you connect with family (+5 Happiness, -5 Health)\n ";
+            p.addIntelligence(10);
+            return "Thanksgiving helps you connect with family (+5 Happiness, -5 Health, +10 Intelligence)\n";
+        }
+        else if (randomNumGen(1, 40) == 1)
+        {
+            p.addHealth(5);
+            p.addIntelligence(5);
+            return "Easter brings health and enlightenment! (+5 Health, +5 Intelligence)\n";
+        }
+        else if (randomNumGen(1, 50) == 1)
+        {
+            p.addHealth(10);
+            p.addIntelligence(10);
+            return "You embark on a retreat to nature. It brings clarity and health. (+10 Health, +10 Intelligence)\n";
         }
         else {
             statChange = false;
@@ -635,7 +650,7 @@ return "";
     {
         statChange = true;
         int rand = randomNumGen(1,100);
-        lucky = randomNumGen(1,10) <= 4;
+        lucky = randomNumGen(1,10) <= 6;
         if (lucky)
         {
             happinessChange = randomStatGenerator();
@@ -732,26 +747,47 @@ return "";
     {
         actMathAns = d;
     }
-
-    public String processMathBasedChoice(Player p)
+    public void setActMathAnsQuadratic(double d)
     {
-        if (userMathAns == actMathAns)
-        {
-            happinessChange = randomStatGenerator();
-            healthChange = randomStatGenerator();
-            intelligenceChange = randomStatGenerator();
-            lucky = true;
-            addStats(p);
-            return "Correct. You feel good for answering correctly.";
+        actMathAnsQuadratic = d;
+    }
+
+    public String processMathBasedChoice(Player p) {
+        if (p.getAge() < 41) {
+            if (userMathAns == actMathAns) {
+                happinessChange = randomStatGenerator();
+                healthChange = randomStatGenerator();
+                intelligenceChange = randomStatGenerator();
+                lucky = true;
+                addStats(p);
+                return "Correct. You feel good for answering correctly.";
+            } else {
+                happinessChange = -randomStatGenerator();
+                healthChange = -randomStatGenerator();
+                intelligenceChange = -randomStatGenerator();
+                lucky = false;
+                addStats(p);
+                return "Incorrect. The correct answer was " + actMathAns + ".";
+            }
         }
-        else
-        {
-            happinessChange = -randomStatGenerator();
-            healthChange = -randomStatGenerator();
-            intelligenceChange = -randomStatGenerator();
-            lucky = false;
-            addStats(p);
-            return "Incorrect. The correct answer was " + actMathAns + ".";
+        else {
+            if ((userMathAns == actMathAns) || (userMathAns == actMathAnsQuadratic))
+            {
+                happinessChange = randomStatGenerator();
+                healthChange = randomStatGenerator();
+                intelligenceChange = randomStatGenerator();
+                lucky = true;
+                addStats(p);
+                return "Correct. You feel good for answering correctly.";
+            }
+            else {
+                happinessChange = -randomStatGenerator();
+                healthChange = -randomStatGenerator();
+                intelligenceChange = -randomStatGenerator();
+                lucky = false;
+                addStats(p);
+                return "Incorrect. The two possible roots were " + actMathAns + " and " + actMathAnsQuadratic + ".";
+            }
         }
     }
 
