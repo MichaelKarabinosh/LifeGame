@@ -1,12 +1,19 @@
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+/**
+ * The LifeGame class simulates a life simulation game where the player
+ * makes choices and experiences events as they age.
+ */
 public class LifeGame {
     Events e = new Events();
     Player p = new Player();
     Scanner scanner = new Scanner(System.in);
     int choicesMade = 0;
 
+    /**
+     * Starts the first year of the game. Prompts the player to press enter to begin.
+     */
     public void firstYear()
     {
         System.out.print("Press enter to start a new life.");
@@ -15,6 +22,10 @@ public class LifeGame {
             oneGameRound();
         }
     }
+
+    /**
+     * Simulates the full game loop where the player ages up and plays until death.
+     */
     public void fullGame()
     {
         while (p.alive) {
@@ -29,7 +40,10 @@ public class LifeGame {
         System.out.println("Throughout your life you made " + choicesMade + " total choices.");
     }
 
-
+    /**
+     * Simulates a single game round, which includes death checks, stat updates,
+     * events, and player choices.
+     */
     public void oneGameRound()
     {
         p.calculateDeathNum();
@@ -66,14 +80,19 @@ public class LifeGame {
                 choicesMade++;
             }
             choiceNum = e.randomNumGen(1,5);
-            if (e.randomNumGen(1,3) == 1) {
+            if (e.randomNumGen(1,2) == 1) {
                 System.out.print(getAgeBasedChoiceInformation(choiceNum));
                 input = s.nextLine();
                 System.out.print(e.processAgeBasedChoice(choiceNum, input, p));
                 choicesMade++;
-                System.out.println(e.printLuck());
+                if (e.getStatChange()) {
+                    System.out.println(e.printLuck());
+                }
+                else {
+                    System.out.println();
+                }
             }
-            if (e.randomNumGen(1, 3) == 1)
+            if (e.randomNumGen(1, 5) == 1)
             {
                 System.out.print(getMathBasedChoiceInfo(p,e));
                 try
@@ -92,8 +111,14 @@ public class LifeGame {
         else {
             p.alive = false;
         }
-
     }
+
+    /**
+     * Provides the basic choice information for a player to make a decision.
+     *
+     * @param i the choice number corresponding to an event
+     * @return a String describing the event and available options
+     */
     public String getBasicChoiceInformation(int i)
     {
         if (i == 1)
@@ -117,6 +142,13 @@ public class LifeGame {
         }
         return null;
     }
+
+    /**
+     * Provides age-based choice information for a player to make a decision.
+     *
+     * @param i the choice number corresponding to an event
+     * @return a String describing the event and available options
+     */
     public String getAgeBasedChoiceInformation(int i) {
         if (p.getAge() <= 10) {
         if (i == 1) {
@@ -192,16 +224,26 @@ public class LifeGame {
         return "";
     }
 
-
-
+    /**
+     * Generates the format string for rounding numbers based on decimal places.
+     *
+     * @param r the number of decimal places
+     * @return a String format for DecimalFormat
+     */
     public static String getRoundString(int r) {
         String f = "#.";
         for (int i = 0; i < r; i++) {
             f += "#";
         }
         return f;
-
     }
+
+    /**
+     * Determines the number of decimal places based on the player's age.
+     *
+     * @param age the age of the player
+     * @return the number of decimal places
+     */
     public int numDecimalPlaces(int age)
     {
         if (age <= 11)
@@ -217,7 +259,13 @@ public class LifeGame {
         }
     }
 
-
+    /**
+     * Provides information about a math-based choice for the player.
+     *
+     * @param p the player involved in the event
+     * @param e the Events instance managing the event
+     * @return a String describing the math question for the player
+     */
     public String getMathBasedChoiceInfo(Player p, Events e)
     {
         double x = (Math.random() * 20) + 1;
@@ -274,7 +322,7 @@ public class LifeGame {
             double sqrt = Math.sqrt(Math.pow(b, 2) - (4 * a * c));
             e.setActMathAns(Double.parseDouble(df.format((-b + sqrt) / (2 * a))));
             e.setActMathAnsQuadratic(Double.parseDouble(df.format((-b - sqrt) / (2 * a))));
-            return "Your child asks you a math question: What is one possible root of " + a + "x^2 + " + b + "x + " + c + "?";
+            return "Your child asks you a math question: What is one possible root of " + a + "x^2 + " + b + "x + " + c + "? ";
 
         }
         return "";
